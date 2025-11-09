@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ========================================
+         CONFIGURATION SECTION
+         ======================================== -->
+    <script>
+        const CONFIG = {
+            clinicName: "SmileCare Dental",
+            tagline: "Your Healthy Smile Partner",
+            phone: "+1 (555) 987-6543",
+            email: "care@smilecare.com",
+            address: "789 Dental Plaza, Suite 200, Downtown, City 67890",
+            
+            hours: {
+                weekdays: "Mon - Fri: 9:00 AM - 6:00 PM",
+                saturday: "Sat: 10:00 AM - 3:00 PM",
+                sunday: "Sun: Closed"
+            },
+            
+            social: {
+                facebook: "https://facebook.com/yourpage",
+                instagram: "https://instagram.com/yourpage",
+                whatsapp: "+15559876543"
+            },
+            
+            seo: {
+                title: "SmileCare Dental | Mobile-Friendly Dental Clinic",
+                description: "Book your dental appointment easily from your phone. Quality care, modern facility, flexible hours.",
+                keywords: "mobile dental booking, dentist near me, dental clinic, teeth cleaning, emergency dentist"
+            },
+            
+            images: {
+                logo: "images/logo.png",
+                hero: "images/hero-mobile.jpg",
+                about: "images/about.jpg",
+                service1: "images/service1.jpg",
+                service2: "images/service2.jpg",
+                service3: "images/service3.jpg",
+                service4: "images/service4.jpg"
+            },
+            
+            services: [
+                { name: "General Checkup", icon: "🦷", color: "#10B981" },
+                { name: "Teeth Cleaning", icon: "✨", color: "#3B82F6" },
+                { name: "Whitening", icon: "💎", color: "#8B5CF6" },
+                { name: "Emergency Care", icon: "🚑", color: "#EF4444" },
+                { name: "Braces", icon: "🔧", color: "#F59E0B" },
+                { name: "Root Canal", icon: "⚕️", color: "#EC4899" }
+            ],
+            
+            quickActions: [
+                { title: "Call Now", icon: "📞", action: "tel", color: "#10B981" },
+                { title: "WhatsApp", icon: "💬", action: "whatsapp", color: "#25D366" },
+                { title: "Get Directions", icon: "📍", action: "directions", color: "#3B82F6" },
+                { title: "Book Online", icon: "📅", action: "contact", color: "#8B5CF6" }
+            ],
+            
+            colors: {
+                primary: "#0EA5E9",
+                secondary: "#8B5CF6",
+                accent: "#10B981",
+                dark: "#1E293B"
+            },
+            
+            contactMethod: "php"
+        };
+    </script>
+    
+    <title id="pageTitle"></title>
+    <meta name="description" id="pageDescription" content="">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        :root {
+            --primary: #0EA5E9;
+            --secondary: #8B5CF6;
+            --accent: #10B981;
+            --dark: #1E293B;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: #1E293B;
+            overflow-x: hidden;
+            background: #F8FAFC;
+        }
+        
+        /* Mobile-first smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Header - Minimal & Clean */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            padding: 1rem;
+            animation: slideDown 0.5s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo-mobile {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        
+        .logo-mobile img {
+            height: 40px;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .logo-text h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .logo-text p {
+            font-size: 0.7rem;
+            color: #64748B;
+        }
+        
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0.3rem;
+            color: var(--primary);
+            transition: transform 0.3s;
+        }
+        
+        .mobile-menu-btn:active {
+            transform: scale(0.9);
+        }
+        
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
+            z-index: 2000;
+            transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            overflow-y: auto;
+        }
+        
+        .mobile-menu.active {
+            right: 0;
+        }
+        
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        
+        .menu-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .menu-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .close-menu {
+            font-size: 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        
+        .menu-links {
+            list-style: none;
+            padding: 1rem 0;
+        }
+        
+        .menu-links li {
+            border-bottom: 1px solid #F1F5F9;
+        }
+        
+        .menu-links a {
+            display: block;
+            padding: 1.2rem 1.5rem;
+            text-decoration: none;
+            color: #1E293B;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .menu-links a:active {
+            background: #F1F5F9;
+            transform: scale(0.98);
+        }
+        
+        /* Hero Section - Mobile Optimized */
+        .hero {
+            margin-top: 70px;
+            min-height: 60vh;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.95), rgba(139, 92, 246, 0.9)),
+                        url('') center/cover;
+            padding: 2rem 1rem;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            bottom: -100px;
+            right: -100px;
+            animation: pulse 4s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+        }
+        
+        .hero-content {
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero h1 {
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        
+        .hero p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary:active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Quick Actions - Mobile Swipeable */
+        .quick-actions {
+            padding: 1.5rem 1rem;
+            background: white;
+            margin: -30px 1rem 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+        
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .action-card {
+            background: linear-gradient(135deg, var(--bg-color), var(--bg-color-light));
+            padding: 1.5rem 1rem;
+            border-radius: 15px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-card:active {
+            transform: scale(0.95);
+        }
+        
+        .action-icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .action-card:nth-child(1) .action-icon { animation-delay: 0s; }
+        .action-card:nth-child(2) .action-icon { animation-delay: 0.1s; }
+        .action-card:nth-child(3) .action-icon { animation-delay: 0.2s; }
+        .action-card:nth-child(4) .action-icon { animation-delay: 0.3s; }
+        
+        .action-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        /* Section Styling */
+        section {
+            padding: 3rem 1rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #64748B;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+        
+        /* Services - Mobile Cards */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 1.5rem 1rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            animation: fadeInUp 0.6s ease backwards;
+        }
+        
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+        .service-card:nth-child(5) { animation-delay: 0.5s; }
+        .service-card:nth-child(6) { animation-delay: 0.6s; }
+        
+        .service-card:active {
+            transform: scale(0.95);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+        
+        .service-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        /* About - Mobile Friendly */
+        .about-content {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .about-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .about-content p {
+            color: #64748B;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat-box {
+            text-align: center;
+            padding: 1rem;
+            background: #F8FAFC;
+            border-radius: 15px;
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #64748B;
+            margin-top: 0.3rem;
+        }
+        
+        /* Contact - Mobile Form */
+        .contact-card {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .contact-info {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 1.5rem;
+            border-radius: 15px;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+        }
+        
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .contact-icon {
+            font-size: 1.3rem;
+        }
+        
+        .contact-details {
+            font-size: 0.9rem;
+        }
+        
+        .contact-details strong {
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+        
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* Footer - Mobile Compact */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-tagline {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+        }
+        
+        .social-link:active {
+            transform: scale(0.9);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer-bottom {
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+        
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent), #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+            z-index: 999;
+            animation: fadeInScale 0.5s ease 1s backwards;
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .fab:active {
+            transform: scale(0.9);
+        }
+        
+        /* Tablet & Desktop Adjustments */
+        @media (min-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .hero p { font-size: 1.2rem; }
+            
+            .cta-buttons {
+                flex-direction: row;
+                max-width: 500px;
+            }
+            
+            .actions-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+            }
+            
+            section {
+                padding: 4rem 2rem;
+            }
+            
+            .quick-actions {
+                margin: -30px 2rem 0;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+            
+            .contact-card {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-mobile">
+                <img id="logoImg" src="" alt="Logo">
+                <div class="logo-text">
+                    <h1 id="clinicName"></h1>
+                    <p id="tagline"></p>
+                </div>
+            </div>
+            <button class="mobile-menu-btn" onclick="openMenu()">☰</button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="menu-header">
+            <h3>Menu</h3>
+            <button class="close-menu" onclick="closeMenu()">×</button>
+        </div>
+        <ul class="menu-links">
+            <li><a href="#home" onclick="closeMenu()">🏠 Home</a></li>
+            <li><a href="#services" onclick="closeMenu()">🦷 Services</a></li>
+            <li><a href="#about" onclick="closeMenu()">ℹ️ About Us</a></li>
+            <li><a href="#contact" onclick="closeMenu()">📞 Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Your Dental Care Partner</h1>
+            <p>Quality dental services at your fingertips. Book appointments easily from your phone.</p>
+            <div class="cta-buttons">
+                <a href="tel:" id="heroCallBtn" class="btn btn-primary">📞 Call Now</a>
+                <a href="#services" class="btn btn-secondary">View Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <div class="actions-grid" id="actionsGrid"></div>
+    </div>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">Tap any service to learn more</p>
+        <div class="services-grid" id="servicesGrid"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Us</h2>
+        <p class="section-subtitle">Your trusted dental care provider</p>
+        <div class="about-content">
+            <img id="aboutImg" class="about-image" src="" alt="Clinic">
+            <h3>Excellence in Dental Care</h3>
+            <p>We're committed to providing top-quality dental services in a comfortable, modern environment. Our experienced team uses the latest technology to ensure the best care for you and your family.</p>
+            <p>From routine checkups to advanced treatments, we're here for all your dental needs.</p>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Years</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">3K+</div>
+                    <div class="stat-label">Patients</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-label">Happy</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-subtitle">We're here to help you</p>
+        <div class="contact-card">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="contact-icon">📞</span>
+                    <div class="contact-details">
+                        <strong>Phone</strong>
+                        <span id="contactPhone"></span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">✉️</span>
+                    <div class="contact-details">
+                        <strong>Email</strong>
+                        <span id="contactEmail"></span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📍</span>
+                    <div class="contact-details">
+                        <strong>Address</strong>
+                        <span id="contactAddress"></span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">⏰</span>
+                    <div class="contact-details">
+                        <strong>Hours</strong>
+                        <span id="contactHours"></span><br>
+                        <span id="contactSaturday"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="margin-bottom: 1.5rem;">Send Message</h3>
+            <form id="contactForm">
+                <input type="text" name="website" style="display:none">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" name="phone" placeholder="Your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="Your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea name="message" rows="4" placeholder="How can we help?" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+                <div id="formMessage" style="margin-top: 1rem; text-align: center; font-weight: 600;"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo" id="footerName"></div>
+        <div class="footer-tagline" id="footerTagline"></div>
+        <div class="social-links" id="socialLinks"></div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 <span id="footerCopyright"></span>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Action Button -->
+    <a href="tel:" id="fab" class="fab" title="Call Now">📞</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply colors
+            document.documentElement.style.setProperty('--primary', CONFIG.colors.primary);
+            document.documentElement.style.setProperty('--secondary', CONFIG.colors.secondary);
+            document.documentElement.style.setProperty('--accent', CONFIG.colors.accent);
+            document.documentElement.style.setProperty('--dark', CONFIG.colors.dark);
+            
+            // SEO
+            document.getElementById('pageTitle').textContent = CONFIG.seo.title;
+            document.getElementById('pageDescription').setAttribute('content', CONFIG.seo.description);
+            
+            // Header
+            document.getElementById('logoImg').src = CONFIG.images.logo;
+            document.getElementById('clinicName').textContent = CONFIG.clinicName;
+            document.getElementById('tagline').textContent = CONFIG.tagline;
+            
+            // Hero
+            document.querySelector('.hero').style.backgroundImage = 
+                `linear-gradient(135deg, rgba(14, 165, 233, 0.95), rgba(139, 92, 246, 0.9)), url('${CONFIG.images.hero}')`;
+            document.getElementById('heroCallBtn').href = 'tel:' + CONFIG.phone;
+            
+            // Quick Actions
+            const actionsGrid = document.getElementById('actionsGrid');
+            CONFIG.quickActions.forEach((action, index) => {
+                let href = '#contact';
+                if (action.action === 'tel') href = 'tel:' + CONFIG.phone;
+                if (action.action === 'whatsapp') href = 'https://wa.me/' + CONFIG.social.whatsapp.replace(/[^0-9]/g, '');
+                if (action.action === 'directions') href = 'https://maps.google.com/?q=' + encodeURIComponent(CONFIG.address);
+                
+                actionsGrid.innerHTML += `
+                    <a href="${href}" class="action-card" style="--bg-color: ${action.color}; --bg-color-light: ${action.color}dd;">
+                        <span class="action-icon">${action.icon}</span>
+                        <div class="action-title">${action.title}</div>
+                    </a>
+                `;
+            });
+            
+            // Services
+            const servicesGrid = document.getElementById('servicesGrid');
+            CONFIG.services.forEach(service => {
+                servicesGrid.innerHTML += `
+                    <div class="service-card">
+                        <span class="service-icon">${service.icon}</span>
+                        <div class="service-name">${service.name}</div>
+                    </div>
+                `;
+            });
+            
+            // About
+            document.getElementById('aboutImg').src = CONFIG.images.about;
+            
+            // Contact
+            document.getElementById('contactPhone').textContent = CONFIG.phone;
+            document.getElementById('contactEmail').textContent = CONFIG.email;
+            document.getElementById('contactAddress').textContent = CONFIG.address;
+            document.getElementById('contactHours').textContent = CONFIG.hours.weekdays;
+            document.getElementById('contactSaturday').textContent = CONFIG.hours.saturday;
+            
+            // Footer
+            document.getElementById('footerName').textContent = CONFIG.clinicName;
+            document.getElementById('footerTagline').textContent = CONFIG.tagline;
+            document.getElementById('footerCopyright').textContent = CONFIG.clinicName;
+            
+            // Social Links
+            const socialLinks = document.getElementById('socialLinks');
+            if (CONFIG.social.facebook) socialLinks.innerHTML += `<a href="${CONFIG.social.facebook}" class="social-link">📘</a>`;
+            if (CONFIG.social.instagram) socialLinks.innerHTML += `<a href="${CONFIG.social.instagram}" class="social-link">📷</a>`;
+            if (CONFIG.social.whatsapp) socialLinks.innerHTML += `<a href="https://wa.me/${CONFIG.social.whatsapp.replace(/[^0-9]/g, '')}" class="social-link">💬</a>`;
+            
+            // FAB
+            document.getElementById('fab').href = 'tel:' + CONFIG.phone;
+            
+            // Contact Form
+            const contactForm = document.getElementById('contactForm');
+            if (CONFIG.contactMethod === 'php') {
+                contactForm.setAttribute('action', 'contact.php');
+                contactForm.setAttribute('method', 'POST');
+            }
+            
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const btn = this.querySelector('.submit-btn');
+                const msg = document.getElementById('formMessage');
+                btn.textContent = 'Sending...';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    msg.style.color = 'var(--accent)';
+                    msg.textContent = '✓ Message sent! We\'ll call you soon.';
+                    btn.textContent = 'Send Message';
+                    btn.disabled = false;
+                    contactForm.reset();
+                }, 1500);
+            });
+        });
+        
+        function openMenu() {
+            document.getElementById('mobileMenu').classList.add('active');
+            document.getElementById('menuOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMenu() {
+            document.getElementById('mobileMenu').classList.remove('active');
+            document.getElementById('menuOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Close menu on swipe
+        let touchStartX = 0;
+        document.getElementById('mobileMenu').addEventListener('touchstart', e => {
+            touchStartX = e.touches[0].clientX;
+        });
+        
+        document.getElementById('mobileMenu').addEventListener('touchend', e => {
+            const touchEndX = e.changedTouches[0].clientX;
+            if (touchEndX - touchStartX > 50) closeMenu();
+        });
+    </script>
+</body>
+</html>

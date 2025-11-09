@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ========================================
+         CONFIGURATION SECTION
+         ======================================== -->
+    <script>
+        const CONFIG = {
+            clinicName: "Elite Dental Care",
+            tagline: "Where Beautiful Smiles Begin",
+            phone: "+1 (555) 123-4567",
+            email: "hello@elitedental.com",
+            address: "456 Healthcare Avenue, Medical District, City 54321",
+            
+            hours: {
+                weekdays: "Mon - Fri: 8:00 AM - 7:00 PM",
+                saturday: "Saturday: 9:00 AM - 4:00 PM",
+                sunday: "Sunday: Closed"
+            },
+            
+            social: {
+                facebook: "https://facebook.com/yourpage",
+                instagram: "https://instagram.com/yourpage",
+                twitter: "https://twitter.com/yourpage"
+            },
+            
+            seo: {
+                title: "Elite Dental Care | Premium Dental Services",
+                description: "Experience world-class dental care with cutting-edge technology and compassionate professionals.",
+                keywords: "premium dentist, cosmetic dentistry, dental implants, invisalign, teeth whitening"
+            },
+            
+            images: {
+                logo: "images/logo.png",
+                hero: "images/hero.jpg",
+                about1: "images/about1.jpg",
+                about2: "images/about2.jpg",
+                service1: "images/service1.jpg",
+                service2: "images/service2.jpg",
+                service3: "images/service3.jpg",
+                service4: "images/service4.jpg",
+                testimonial1: "images/patient1.jpg",
+                testimonial2: "images/patient2.jpg",
+                testimonial3: "images/patient3.jpg"
+            },
+            
+            services: [
+                {
+                    title: "Cosmetic Dentistry",
+                    description: "Transform your smile with veneers, bonding, and professional whitening treatments.",
+                    icon: "✨"
+                },
+                {
+                    title: "Dental Implants",
+                    description: "Permanent solutions for missing teeth using advanced implant technology.",
+                    icon: "🦷"
+                },
+                {
+                    title: "Invisalign",
+                    description: "Straighten your teeth discreetly with clear aligners custom-made for you.",
+                    icon: "😊"
+                },
+                {
+                    title: "Emergency Care",
+                    description: "Immediate attention for dental emergencies. We're here when you need us most.",
+                    icon: "⚡"
+                }
+            ],
+            
+            testimonials: [
+                {
+                    name: "Sarah Johnson",
+                    text: "The team here is absolutely amazing! My smile transformation exceeded all expectations.",
+                    rating: 5
+                },
+                {
+                    name: "Michael Chen",
+                    text: "Professional, caring, and state-of-the-art facilities. Best dental experience I've ever had!",
+                    rating: 5
+                },
+                {
+                    name: "Emily Rodriguez",
+                    text: "From the moment I walked in, I felt valued. The results speak for themselves!",
+                    rating: 5
+                }
+            ],
+            
+            colors: {
+                primary: "#4F46E5",
+                secondary: "#06B6D4",
+                dark: "#1E293B",
+                light: "#F8FAFC"
+            },
+            
+            contactMethod: "php"
+        };
+    </script>
+    
+    <title id="pageTitle"></title>
+    <meta name="description" id="pageDescription" content="">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #4F46E5;
+            --secondary: #06B6D4;
+            --dark: #1E293B;
+            --light: #F8FAFC;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            overflow-x: hidden;
+            background: white;
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-section img {
+            height: 55px;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo-text p {
+            font-size: 0.85rem;
+            color: #64748B;
+            font-weight: 300;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .book-btn {
+            background: var(--gradient);
+            color: white !important;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(79, 70, 229, 0.4);
+        }
+        
+        .book-btn::after {
+            display: none;
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+        
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.95) 0%, rgba(6, 182, 212, 0.9) 100%),
+                        url('') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-50px, 50px); }
+        }
+        
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            animation: slideInLeft 1s ease;
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .hero-text p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+            animation: slideInLeft 1s ease 0.2s backwards;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            animation: slideInLeft 1s ease 0.4s backwards;
+        }
+        
+        .btn-primary, .btn-secondary {
+            padding: 1.1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1rem;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(255, 255, 255, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 2px solid white;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .hero-image {
+            position: relative;
+            animation: slideInRight 1s ease;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .hero-image img {
+            width: 100%;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Features Bar */
+        .features-bar {
+            background: white;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+            padding: 3rem 3rem;
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+            border-radius: 20px;
+            max-width: 1300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            text-align: center;
+        }
+        
+        .feature-item {
+            padding: 1rem;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .feature-item h4 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-item p {
+            color: #64748B;
+            font-size: 0.9rem;
+        }
+        
+        /* Section Styling */
+        section {
+            padding: 6rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-subtitle {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+        
+        .section-description {
+            font-size: 1.1rem;
+            color: #64748B;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .about-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            position: relative;
+        }
+        
+        .about-images img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-images img:first-child {
+            margin-top: 3rem;
+        }
+        
+        .about-content h3 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-content p {
+            color: #64748B;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: 15px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-label {
+            color: #64748B;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* Services Section */
+        #services {
+            background: var(--light);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+        }
+        
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+        
+        .service-card p {
+            color: #64748B;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .learn-more {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s;
+        }
+        
+        .learn-more:hover {
+            gap: 1rem;
+        }
+        
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .testimonial-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+        
+        .quote-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            opacity: 0.2;
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+        
+        .stars {
+            color: #FCD34D;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .testimonial-text {
+            color: #64748B;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .author-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 5rem 3rem;
+            border-radius: 30px;
+            margin: 4rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -150px;
+            right: -150px;
+        }
+        
+        .cta-section h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-button {
+            background: white;
+            color: var(--primary);
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        
+        .contact-info-card {
+            background: var(--gradient);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .contact-info-card h3 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-icon {
+            font-size: 1.5rem;
+            margin-top: 0.2rem;
+        }
+        
+        .contact-form-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .submit-btn {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(79, 70, 229, 0.3);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 3rem 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-about h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-about p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-links h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content,
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                flex-direction: column;
+                background: white;
+                width: 100%;
+                padding: 2rem;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                transition: left 0.3s;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-images {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo-section">
+                <img id="logoImg" src="" alt="Logo">
+                <div class="logo-text">
+                    <h1 id="navClinicName"></h1>
+                    <p id="navTagline"></p>
+                </div>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navMenu">
+                <li><a href="#home" onclick="closeMenu()">Home</a></li>
+                <li><a href="#about" onclick="closeMenu()">About</a></li>
+                <li><a href="#services" onclick="closeMenu()">Services</a></li>
+                <li><a href="#testimonials" onclick="closeMenu()">Testimonials</a></li>
+                <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+                <li><a href="#contact" class="book-btn" onclick="closeMenu()">Book Appointment</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Your Journey to a Perfect Smile Starts Here</h1>
+                <p>Experience exceptional dental care with cutting-edge technology and compassionate professionals dedicated to your smile.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn-primary">Schedule Consultation</a>
+                    <a href="#services" class="btn-secondary">Our Services</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img id="heroImg" src="" alt="Dental Care">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Bar -->
+    <div class="features-bar">
+        <div class="features-grid">
+            <div class="feature-item">
+                <span class="feature-icon">🏥</span>
+                <h4>Modern Facility</h4>
+                <p>State-of-the-art equipment</p>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">👨‍⚕️</span>
+                <h4>Expert Team</h4>
+                <p>Experienced professionals</p>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">⏰</span>
+                <h4>Flexible Hours</h4>
+                <p>Evening & weekend available</p>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">💳</span>
+                <h4>Insurance Accepted</h4>
+                <p>Multiple payment options</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="about-grid">
+            <div class="about-images">
+                <img id="about1" src="" alt="Clinic">
+                <img id="about2" src="" alt="Team">
+            </div>
+            <div class="about-content">
+                <div class="section-subtitle">ABOUT US</div>
+                <h3>Committed to Excellence in Dental Care</h3>
+                <p>We believe everyone deserves a healthy, beautiful smile. Our dedicated team combines years of experience with the latest dental technology to provide exceptional care in a comfortable, welcoming environment.</p>
+                <p>From routine checkups to complex procedures, we're committed to making your dental experience as pleasant and effective as possible.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5000+</div>
+                        <div class="stat-label">Happy Patients</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="section-header">
+            <div class="section-subtitle">OUR SERVICES</div>
+            <h2 class="section-title">Comprehensive Dental Solutions</h2>
+            <p class="section-description">From preventive care to advanced treatments, we offer a complete range of dental services tailored to your needs.</p>
+        </div>
+        <div class="services-grid" id="servicesGrid"></div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <div class="section-header">
+            <div class="section-subtitle">TESTIMONIALS</div>
+            <h2 class="section-title">What Our Patients Say</h2>
+            <p class="section-description">Don't just take our word for it - hear from our satisfied patients about their experience.</p>
+        </div>
+        <div class="testimonials-grid" id="testimonialsGrid"></div>
+    </section>
+
+    <!-- CTA Section -->
+    <div class="cta-section">
+        <h2>Ready to Transform Your Smile?</h2>
+        <p>Schedule your consultation today and take the first step towards a healthier, brighter smile.</p>
+        <a href="#contact" class="cta-button">Book Your Appointment</a>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-header">
+            <div class="section-subtitle">CONTACT US</div>
+            <h2 class="section-title">Get In Touch</h2>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info-card">
+                <h3>Contact Information</h3>
+                <div class="contact-item">
+                    <span class="contact-icon">📞</span>
+                    <div>
+                        <strong>Phone</strong><br>
+                        <span id="contactPhone"></span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">✉️</span>
+                    <div>
+                        <strong>Email</strong><br>
+                        <span id="contactEmail"></span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📍</span>
+                    <div>
+                        <strong>Address</strong><br>
+                        <span id="contactAddress"></span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">⏰</span>
+                    <div>
+                        <strong>Hours</strong><br>
+                        <span id="contactHours"></span><br>
+                        <span id="contactSaturday"></span><br>
+                        <span id="contactSunday"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form-card">
+                <h3 style="margin-bottom: 2rem;">Send Us a Message</h3>
+                <form id="contactForm">
+                    <input type="text" name="website" style="display:none">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                    <div id="formMessage" style="margin-top: 1rem; text-align: center; font-weight: 600;"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <h3 id="footerName"></h3>
+                <p id="footerTagline"></p>
+                <div class="social-links" id="socialLinks"></div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Services</h4>
+                <ul id="footerServices"></ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li id="footerPhone"></li>
+                    <li id="footerEmail"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 <span id="footerCopyright"></span>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply colors
+            document.documentElement.style.setProperty('--primary', CONFIG.colors.primary);
+            document.documentElement.style.setProperty('--secondary', CONFIG.colors.secondary);
+            document.documentElement.style.setProperty('--dark', CONFIG.colors.dark);
+            document.documentElement.style.setProperty('--light', CONFIG.colors.light);
+            
+            // SEO
+            document.getElementById('pageTitle').textContent = CONFIG.seo.title;
+            document.getElementById('pageDescription').setAttribute('content', CONFIG.seo.description);
+            
+            // Header
+            document.getElementById('logoImg').src = CONFIG.images.logo;
+            document.getElementById('navClinicName').textContent = CONFIG.clinicName;
+            document.getElementById('navTagline').textContent = CONFIG.tagline;
+            
+            // Hero
+            document.getElementById('heroImg').src = CONFIG.images.hero;
+            document.querySelector('.hero').style.backgroundImage = 
+                `linear-gradient(135deg, rgba(79, 70, 229, 0.95) 0%, rgba(6, 182, 212, 0.9) 100%), url('${CONFIG.images.hero}')`;
+            
+            // About
+            document.getElementById('about1').src = CONFIG.images.about1;
+            document.getElementById('about2').src = CONFIG.images.about2;
+            
+            // Services
+            const servicesGrid = document.getElementById('servicesGrid');
+            CONFIG.services.forEach(service => {
+                servicesGrid.innerHTML += `
+                    <div class="service-card">
+                        <div class="service-icon">${service.icon}</div>
+                        <h3>${service.title}</h3>
+                        <p>${service.description}</p>
+                        <a href="#contact" class="learn-more">Book Now →</a>
+                    </div>
+                `;
+            });
+            
+            // Testimonials
+            const testimonialsGrid = document.getElementById('testimonialsGrid');
+            CONFIG.testimonials.forEach(testimonial => {
+                const stars = '⭐'.repeat(testimonial.rating);
+                testimonialsGrid.innerHTML += `
+                    <div class="testimonial-card">
+                        <div class="quote-icon">"</div>
+                        <div class="stars">${stars}</div>
+                        <p class="testimonial-text">"${testimonial.text}"</p>
+                        <div class="testimonial-author">
+                            <div>
+                                <div class="author-name">${testimonial.name}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // Contact
+            document.getElementById('contactPhone').textContent = CONFIG.phone;
+            document.getElementById('contactEmail').textContent = CONFIG.email;
+            document.getElementById('contactAddress').textContent = CONFIG.address;
+            document.getElementById('contactHours').textContent = CONFIG.hours.weekdays;
+            document.getElementById('contactSaturday').textContent = CONFIG.hours.saturday;
+            document.getElementById('contactSunday').textContent = CONFIG.hours.sunday;
+            
+            // Footer
+            document.getElementById('footerName').textContent = CONFIG.clinicName;
+            document.getElementById('footerTagline').textContent = CONFIG.tagline;
+            document.getElementById('footerCopyright').textContent = CONFIG.clinicName;
+            document.getElementById('footerPhone').textContent = CONFIG.phone;
+            document.getElementById('footerEmail').textContent = CONFIG.email;
+            
+            // Social links
+            const socialLinks = document.getElementById('socialLinks');
+            if (CONFIG.social.facebook) socialLinks.innerHTML += `<a href="${CONFIG.social.facebook}">📘</a>`;
+            if (CONFIG.social.instagram) socialLinks.innerHTML += `<a href="${CONFIG.social.instagram}">📷</a>`;
+            if (CONFIG.social.twitter) socialLinks.innerHTML += `<a href="${CONFIG.social.twitter}">🐦</a>`;
+            
+            // Footer services
+            const footerServices = document.getElementById('footerServices');
+            CONFIG.services.forEach(service => {
+                footerServices.innerHTML += `<li><a href="#services">${service.title}</a></li>`;
+            });
+            
+            // Contact form
+            const contactForm = document.getElementById('contactForm');
+            if (CONFIG.contactMethod === 'php') {
+                contactForm.setAttribute('action', 'contact.php');
+                contactForm.setAttribute('method', 'POST');
+            }
+            
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const btn = this.querySelector('.submit-btn');
+                const msg = document.getElementById('formMessage');
+                btn.textContent = 'Sending...';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    msg.style.color = 'green';
+                    msg.textContent = '✓ Message sent successfully!';
+                    btn.textContent = 'Send Message';
+                    btn.disabled = false;
+                    contactForm.reset();
+                }, 1500);
+            });
+        });
+        
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('active');
+        }
+        
+        function closeMenu() {
+            document.getElementById('navMenu').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
