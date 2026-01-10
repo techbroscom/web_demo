@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; display: flex; }
+        .sidebar { width: 260px; background: #1f2937; color: white; min-height: 100vh; padding: 20px; }
+        .main { flex: 1; padding: 40px; max-width: 900px; }
+        .card { background: white; padding: 25px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; }
+        button { background: #8b5cf6; color: white; border: none; font-weight: bold; cursor: pointer; }
+        .order-row { border-bottom: 1px solid #eee; padding: 15px 0; }
+        .stat-badge { background: #dcfce7; color: #166534; padding: 10px; border-radius: 10px; display: inline-block; font-size: 1.2rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin</h2>
+        <p>Manage Products & Orders</p>
+        <hr style="margin: 20px 0; opacity: 0.2;">
+        <div id="stats">
+            <p>Total Revenue:</p>
+            <div class="stat-badge" id="totalRev">$0.00</div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="card">
+            <h3>Add New Product</h3>
+            <input id="pName" placeholder="Product Name">
+            <input type="number" id="pPrice" placeholder="Price">
+            <input type="number" id="pStock" placeholder="Initial Stock">
+            <label style="font-size: 0.8rem;">Upload Product Photo:</label>
+            <input type="file" id="pImg" accept="image/*">
+            <button id="saveBtn">List Product</button>
+        </div>
+
+        <div class="card">
+            <h3>Active Orders</h3>
+            <div id="orderContainer">Loading orders...</div>
+        </div>
+        
+        <div class="card">
+            <h3>Store Settings</h3>
+            <input id="sName" placeholder="Business Name">
+            <input id="sTitle" placeholder="Hero Title">
+            <button id="setBtn">Save Settings</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getDatabase, ref, set, push, onValue, remove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAfxtCHxeDz-RQR9vIk2FIORQLKtQ58uC8",
+            authDomain: "by-artholic.firebaseapp.com",
+            databaseURL: "https://by-artholic-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "by-artholic",
+            storageBucket: "by-artholic.firebasestorage.app",
+            messagingSenderId: "1082906393096",
+            appId: "1:1082906393096:web:d5a7ab883fc432e624afbd"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const storage = getStorage(app);
+
+        // Upload Product Logic
+        document.getElementById('saveBtn').onclick = async () => {
+            const file = document.getElementById('pImg').files[0];
+            const name = document.getElementById('pName').value;
+            const btn = document.getElementById('saveBtn');
+            
+            if(!file || !name) return alert("Photo and Name required");
+            btn.disabled = true; btn.innerText = "Uploading...";
+
+            const storageRef = sRef(storage, `products/${Date.now()}_${file.name}`);
+            const snapshot = await uploadBytes(storageRef, file);
+            const url = await getDownloadURL(snapshot.ref);
+
+            const newRef = push(ref(db, 'products'));
+            await set(newRef, {
+                name: name,
+                price: parseFloat(document.getElementById('pPrice').value),
+                stock: parseInt(document.getElementById('pStock').value),
+                image: url
+            });
+
+            alert("Added!");
+            location.reload();
+        };
+
+        // Orders & Revenue Logic
+        onValue(ref(db, 'orders'), s => {
+            const orders = s.val();
+            const container = document.getElementById('orderContainer');
+            let totalRev = 0;
+            container.innerHTML = '';
+
+            if(!orders) { container.innerHTML = "No orders yet"; return; }
+
+            Object.keys(orders).reverse().forEach(id => {
+                const o = orders[id];
+                totalRev += o.total;
+                container.innerHTML += `
+                    <div class="order-row">
+                        <b>Order #${id.slice(-5)}</b> - $${o.total.toFixed(2)}<br>
+                        ${o.customer.name} (${o.customer.email})<br>
+                        <small>${o.items.map(i => i.name + ' x' + i.qty).join(', ')}</small><br>
+                        <button onclick="deleteOrder('${id}')" style="background:#ef4444; width:auto; padding:5px 10px; margin-top:5px">Complete/Delete</button>
+                    </div>`;
+            });
+            document.getElementById('totalRev').innerText = `$${totalRev.toFixed(2)}`;
+        });
+
+        window.deleteOrder = (id) => confirm("Order finished?") && remove(ref(db, 'orders/'+id));
+
+        document.getElementById('setBtn').onclick = () => {
+            set(ref(db, 'settings'), {
+                name: document.getElementById('sName').value,
+                title: document.getElementById('sTitle').value
+            }).then(() => alert("Settings Updated"));
+        };
+    </script>
+</body>
+</html>
