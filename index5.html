@@ -3,55 +3,442 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handmade Crochet Shop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Artisan Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #8b5cf6; --bg: #fafafa; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
-        body { background: var(--bg); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        header { background: white; padding: 1rem 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
-        .cart-btn { background: var(--primary); color: white; padding: 8px 16px; border-radius: 20px; cursor: pointer; border: none; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-        .hero { text-align: center; padding: 4rem 1rem; background: #f3f0ff; border-bottom-left-radius: 50px; border-bottom-right-radius: 50px; }
-        .container { max-width: 1100px; margin: 2rem auto; padding: 0 20px; }
-        
-        .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2rem; }
-        .product-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; display: flex; flex-direction: column; }
-        .img-container { height: 250px; background: #f3f4f6; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .p-info { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .price { font-size: 1.4rem; font-weight: 700; color: var(--primary); margin: 10px 0; }
-        
-        button { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        button:hover { opacity: 0.9; }
-        button:disabled { background: #ccc; cursor: not-allowed; }
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1.2rem 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.5s ease;
+        }
 
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; padding: 20px; overflow-y: auto; backdrop-filter: blur(5px); }
-        .modal-content { background: white; max-width: 500px; margin: 1rem auto; padding: 2rem; border-radius: 25px; position: relative; }
-        .cart-item { display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .cart-button {
+            position: relative;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .cart-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff6b6b;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .hero {
+            margin-top: 80px;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 1.8rem;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: #2d3748;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.8rem;
+        }
+
+        .stock-info {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 1.2rem;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .add-to-cart-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .add-to-cart-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            padding: 2rem;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 600px;
+            margin: 2rem auto;
+            border-radius: 32px;
+            padding: 3rem;
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: #2d3748;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: #f7fafc;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #2d3748;
+            margin-bottom: 0.3rem;
+        }
+
+        .cart-item-details {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .remove-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .total-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-top: 0.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            margin: 0.8rem 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            width: 100%;
+            background: #e2e8f0;
+            color: #2d3748;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #718096;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .success-check {
+            width: 80px;
+            height: 80px;
+            background: #48bb78;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .success-check::after {
+            content: '✓';
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.1rem; }
+            .products-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div class="nav-container">
-            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);" id="businessName">Shop</div>
-            <button class="cart-btn" onclick="showCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
+    <nav class="nav">
+        <div class="nav-content">
+            <div class="logo" id="businessName">ARTISAN</div>
+            <button class="cart-button" onclick="showCart()">
+                <span>🛒 Cart</span>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </button>
         </div>
-    </header>
+    </nav>
 
     <div class="hero">
-        <h1 id="heroTitle">Loading...</h1>
-        <p id="heroSubtitle">Please wait...</p>
+        <h1 id="heroTitle">Handcrafted with Love</h1>
+        <p id="heroSubtitle">Discover unique artisan creations</p>
     </div>
 
     <div class="container">
-        <div class="products" id="productGrid"></div>
+        <div class="products-grid" id="productsGrid"></div>
     </div>
 
-    <div id="shopModal" class="modal">
+    <div id="cartModal" class="modal" onclick="if(event.target === this) closeModal()">
         <div class="modal-content" id="modalContent"></div>
     </div>
 
@@ -72,112 +459,191 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        let products = {};
 
-        // Sync Content
         onValue(ref(db, 'settings'), s => {
             const d = s.val() || {};
-            document.getElementById('businessName').innerText = d.name || 'Crochet Shop';
-            document.getElementById('heroTitle').innerText = d.title || 'Handmade Crochet';
-            document.getElementById('heroSubtitle').innerText = d.subtitle || 'Made with love';
+            document.getElementById('businessName').innerText = d.name || 'ARTISAN';
+            document.getElementById('heroTitle').innerText = d.title || 'Handcrafted with Love';
+            document.getElementById('heroSubtitle').innerText = d.subtitle || 'Discover unique artisan creations';
         });
 
         onValue(ref(db, 'products'), s => {
             const data = s.val();
-            const grid = document.getElementById('productGrid');
+            products = data || {};
+            const grid = document.getElementById('productsGrid');
             grid.innerHTML = '';
-            for (let id in data) {
-                const p = data[id];
-                grid.innerHTML += `
-                    <div class="product-card">
-                        <div class="img-container">
-                            <img src="${p.image || 'https://via.placeholder.com/400'}" alt="${p.name}">
-                        </div>
-                        <div class="p-info">
-                            <h3>${p.name}</h3>
-                            <div class="price">$${p.price.toFixed(2)}</div>
-                            <p style="font-size:0.8rem; color:#666; margin-bottom:1rem">Stock: ${p.stock}</p>
-                            <button onclick="addToCart('${id}', '${p.name}', ${p.price}, ${p.stock})" ${p.stock <= 0 ? 'disabled' : ''}>
-                                ${p.stock > 0 ? 'Add to Cart' : 'Sold Out'}
-                            </button>
-                        </div>
-                    </div>`;
+            
+            for (let id in products) {
+                const p = products[id];
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${p.image || 'https://via.placeholder.com/400'}" alt="${p.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-price">$${p.price.toFixed(2)}</div>
+                        <div class="stock-info">${p.stock > 0 ? `${p.stock} in stock` : 'Out of stock'}</div>
+                        <button class="add-to-cart-btn" onclick="addToCart('${id}')" ${p.stock <= 0 ? 'disabled' : ''}>
+                            ${p.stock > 0 ? 'Add to Cart' : 'Sold Out'}
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
             }
         });
 
-        window.addToCart = (id, name, price, stock) => {
-            const item = cart.find(i => i.id === id);
-            if(item) {
-                if(item.qty < stock) item.qty++;
-                else return alert("Max stock reached");
+        window.addToCart = (id) => {
+            const product = products[id];
+            if (!product) return;
+
+            const existing = cart.find(i => i.id === id);
+            if (existing) {
+                if (existing.qty < product.stock) {
+                    existing.qty++;
+                } else {
+                    alert('Maximum stock reached!');
+                    return;
+                }
             } else {
-                cart.push({id, name, price, qty: 1, max: stock});
+                cart.push({
+                    id,
+                    name: product.name,
+                    price: product.price,
+                    qty: 1,
+                    max: product.stock
+                });
             }
-            updateUI();
+            updateCartUI();
+            animateBadge();
         };
 
-        function updateUI() {
+        function updateCartUI() {
             localStorage.setItem('cart', JSON.stringify(cart));
-            document.getElementById('cartCount').innerText = cart.reduce((a,b) => a + b.qty, 0);
+            const badge = document.getElementById('cartBadge');
+            const total = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.textContent = total;
+            if (total > 0) {
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function animateBadge() {
+            const badge = document.getElementById('cartBadge');
+            badge.style.animation = 'none';
+            setTimeout(() => badge.style.animation = 'bounce 0.5s ease', 10);
         }
 
         window.showCart = () => {
-            let html = `<h2>Your Cart</h2><br>`;
-            if(cart.length === 0) html += "<p>Empty</p>";
-            else {
+            let html = '<h2>Your Cart</h2>';
+            
+            if (cart.length === 0) {
+                html += `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🛒</div>
+                        <h3>Your cart is empty</h3>
+                        <p>Add some amazing products to get started!</p>
+                    </div>
+                    <button class="btn-secondary" onclick="closeModal()">Continue Shopping</button>
+                `;
+            } else {
                 cart.forEach((item, i) => {
-                    html += `<div class="cart-item">
-                        <div><b>${item.name}</b><br>$${item.price} x ${item.qty}</div>
-                        <button onclick="removeItem(${i})" style="width:auto; padding:5px 10px; background:#ef4444">Remove</button>
-                    </div>`;
+                    html += `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-details">$${item.price.toFixed(2)} × ${item.qty} = $${(item.price * item.qty).toFixed(2)}</div>
+                            </div>
+                            <button class="remove-btn" onclick="removeItem(${i})">Remove</button>
+                        </div>
+                    `;
                 });
-                html += `<button onclick="showCheckout()">Proceed to Checkout</button>`;
+                
+                const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                html += `
+                    <div class="total-section">
+                        <div>Total Amount</div>
+                        <div class="total-amount">$${total.toFixed(2)}</div>
+                    </div>
+                    <button class="btn-primary" onclick="showCheckout()">Proceed to Checkout</button>
+                    <button class="btn-secondary" onclick="closeModal()">Continue Shopping</button>
+                `;
             }
-            html += `<button onclick="closeModal()" style="background:#666; margin-top:10px">Continue Shopping</button>`;
+            
             document.getElementById('modalContent').innerHTML = html;
-            document.getElementById('shopModal').style.display = 'block';
+            document.getElementById('cartModal').style.display = 'block';
         };
 
         window.showCheckout = () => {
-            const total = cart.reduce((a,b) => a + (b.price * b.qty), 0);
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
             document.getElementById('modalContent').innerHTML = `
                 <h2>Checkout</h2>
-                <p>Total: <b>$${total.toFixed(2)}</b></p>
-                <input id="cName" placeholder="Your Name" required>
-                <input id="cEmail" placeholder="Email Address" required>
-                <input id="cAddress" placeholder="Full Delivery Address" required>
-                <button onclick="placeOrder()">Confirm Order</button>
-                <button onclick="showCart()" style="background:#666; margin-top:10px">Back to Cart</button>
+                <div class="total-section">
+                    <div>Order Total</div>
+                    <div class="total-amount">$${total.toFixed(2)}</div>
+                </div>
+                <input id="cName" placeholder="Full Name" required>
+                <input id="cEmail" type="email" placeholder="Email Address" required>
+                <input id="cAddress" placeholder="Delivery Address" required>
+                <button class="btn-primary" onclick="placeOrder()">Confirm Order</button>
+                <button class="btn-secondary" onclick="showCart()">Back to Cart</button>
             `;
         };
 
         window.placeOrder = async () => {
-            const name = document.getElementById('cName').value;
-            const email = document.getElementById('cEmail').value;
-            if(!name || !email) return alert("Fill details");
+            const name = document.getElementById('cName').value.trim();
+            const email = document.getElementById('cEmail').value.trim();
+            const address = document.getElementById('cAddress').value.trim();
+            
+            if (!name || !email || !address) {
+                alert('Please fill in all fields');
+                return;
+            }
 
             const order = {
-                customer: { name, email, address: document.getElementById('cAddress').value },
+                customer: { name, email, address },
                 items: cart,
-                total: cart.reduce((a,b) => a + (b.price * b.qty), 0),
+                total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
                 time: Date.now()
             };
 
             const orderRef = push(ref(db, 'orders'));
             await set(orderRef, order);
             
-            // Deduct Stock
-            for(let item of cart) {
-                update(ref(db, `products/${item.id}`), { stock: item.max - item.qty });
+            for (let item of cart) {
+                update(ref(db, `products/${item.id}`), { 
+                    stock: item.max - item.qty 
+                });
             }
 
+            const orderId = orderRef.key.slice(-6).toUpperCase();
             cart = [];
-            updateUI();
-            document.getElementById('modalContent').innerHTML = `<h2>Success!</h2><p>Order #${orderRef.key.slice(-5)} placed.</p><button onclick="closeModal()">Close</button>`;
+            updateCartUI();
+            
+            document.getElementById('modalContent').innerHTML = `
+                <div class="success-check"></div>
+                <h2 style="text-align: center;">Order Confirmed!</h2>
+                <p style="text-align: center; color: #718096; margin-bottom: 2rem;">
+                    Order ID: <strong>#${orderId}</strong><br>
+                    We'll send confirmation to ${email}
+                </p>
+                <button class="btn-primary" onclick="closeModal()">Done</button>
+            `;
         };
 
-        window.removeItem = (i) => { cart.splice(i, 1); updateUI(); showCart(); };
-        window.closeModal = () => document.getElementById('shopModal').style.display = 'none';
-        updateUI();
+        window.removeItem = (index) => {
+            cart.splice(index, 1);
+            updateCartUI();
+            showCart();
+        };
+
+        window.closeModal = () => {
+            document.getElementById('cartModal').style.display = 'none';
+        };
+
+        updateCartUI();
     </script>
 </body>
 </html>
